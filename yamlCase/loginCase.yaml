@@ -1,0 +1,26 @@
+method: "post"
+uri: "/login"
+
+enmpty_login:
+  data: {"username": '', "password": ''}
+  check: 
+    code: 400 
+    msg: "账号或密码错误"
+
+regix_login:
+  data: {"username": 'admin', "password": '!!@@@@'}
+  check: 
+    code: 400
+    msg: "账号或密码错误"
+
+right_login:
+  data: {"username": 'admin', "password": 'admin'}
+  check:
+    code: 200
+    msg: "登录成功"
+
+length_login:
+  data: {"username": "123456789456786532322222", "password": "6666666666666666666666"}
+  check:
+    code: 400
+    msg: "账号或密码错误"

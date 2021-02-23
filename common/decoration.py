@@ -21,6 +21,7 @@ class Decoration:
     def validateDecoration(views_function):
       @wraps(views_function)
       def innerValidate(*args, **kwargs):
+        form_data = None
         if request.method == 'GET':
           form_data = request.args
         else:
@@ -34,7 +35,7 @@ class Decoration:
         except ValidationError as e:
           return abort(400)
         finally:
-          views_function(*args, **kwargs)
+          return views_function(*args, **kwargs)
 
       return innerValidate
 

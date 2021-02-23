@@ -31,9 +31,10 @@ class DB_Operation:
           rs = cur.fetchall()
         return rs
     except Exception as e:
-      print(e)
+      print(e, 908)
     finally:
       connection.close()
+
 
   @classmethod
   def execute(cls, sql, response=False, *args):
@@ -54,7 +55,7 @@ class DB_Operation:
           rs = cur.fetchall()
         connection.commit()
     except Exception as e:
-      print(e)
+      print(e,90)
       connection.rollback()
     finally:
       connection.close()

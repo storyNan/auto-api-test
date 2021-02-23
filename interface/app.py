@@ -19,20 +19,22 @@ db_conn = DB_Operation()
 @Decoration.validatSchema(LoginSchema)
 def login():
   # 登录并获取session
-  username = request.args.get('username')
-  password = request.args.get('password')
+  data = json.loads(request.data)
+  username = data['username']
+  password = data['password']
   if username == None or password == None:
-    return {"msg": "账户哦或密码错误"}
+    return {"code": 400, "msg": "账户或密码错误"}
   else:
     try:
       sql = "select * from user where user.name='%s' and user.password='%s'"
       items = db_conn.query(sql, True, username, password)
       if items == None:
-        return {"msg": "账号或密码错误"}
-      if 'username' in session:
-        session.pop('username', None)
-      session['username'] = username
-      return {"msg": "登录成功"}
+        return {"code": 400, "msg": "账号或密码错误"}
+      else:
+        if 'username' in session:
+          session.pop('username', None)
+        session['username'] = username
+        return {"code": 200,"msg": "登录成功"}
     except Exception as e:
       return abort(500)
     
@@ -77,12 +79,10 @@ def addArticle():
       if editType == 1:
         sql = "inset into blogs (title, user_name, user_image, summary, content, created_at) values (%s %s %s %s %s %s)"
         items = db_conn.execute(sql, title, user_name, user_image, summary, content, created_at)
-        print(items)
         return {"msg": "添加成功"}
       else:
         sql = "update blogs set title='%s',user_name='%s', user_image='%s', content='%s', summary='%s', created_at='%s' where blogs.id='%s'"
         items = db_conn.execute(sql, title, user_name, user_image, summary, content, created_at, articleId)
-        print(items)
         return {"msg": "修改成功"}
     except Exception as e:
       return abort(500)

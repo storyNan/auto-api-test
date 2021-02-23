@@ -15,5 +15,10 @@ class ArticleSchema(Schema):
   editType = fields.String(required=True)
 
 
+class SendRequestSchema(Schema):
+  url = fields.String(required=True)
+  mehod = fields.String(required=True)
+
+
 
 
