@@ -46,8 +46,9 @@ def logout():
   return {"msg": "退出登录"}
 
 
+
+# @Decoration.isLogin
 @app.route('/getData', methods=['GET'])
-@Decoration.isLogin
 def getData():
   # 获取列表数据
   size = int(request.args.get('size'))
@@ -77,7 +78,7 @@ def addArticle():
   else:
     try:
       if editType == 1:
-        sql = "inset into blogs (title, user_name, user_image, summary, content, created_at) values (%s %s %s %s %s %s)"
+        sql = "insert into blogs (title, user_name, user_image, summary, content, created_at) values (%s %s %s %s %s %s)"
         items = db_conn.execute(sql, title, user_name, user_image, summary, content, created_at)
         return {"msg": "添加成功"}
       else:
